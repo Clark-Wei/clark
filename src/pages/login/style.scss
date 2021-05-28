@@ -1,0 +1,30 @@
+.Login {
+  .login-box {
+    border: 1px solid #ccc;
+    width: 400px;
+    height: 500px;
+    margin: 100px auto 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+
+    .title {
+      font-size: 30px;
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .login-form {
+      padding: 0 20px;
+
+      .no-password {
+        display: flex;
+        flex-direction: row;
+
+        .button-no-password {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
