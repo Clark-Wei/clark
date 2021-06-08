@@ -44,14 +44,7 @@ function Home(props) {
                             onClick: toggle,
                         })}
                     </Header>
-                    <Content
-                        className="site-layout-background"
-                        style={{
-                            margin: '24px 16px',
-                            padding: 24,
-                            minHeight: 280,
-                        }}
-                    >
+                    <Content className="site-layout-background site-layout-content">
                         Content
                     </Content>
                 </Layout>
