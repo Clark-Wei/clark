@@ -21,7 +21,6 @@ function Home(props) {
 
     return (
         <div className="Home">
-
             <Layout>
                 <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
                     <div className="logo"/>
