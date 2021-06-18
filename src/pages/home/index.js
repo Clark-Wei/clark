@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import './style.scss';
 import {Layout, Menu} from 'antd';
+import ReactIcon from '../components/icon/reactIcon';
+import VueIcon from '../components/icon/vueIcon';
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
@@ -25,10 +27,10 @@ function Home(props) {
                 <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
                     <div className="logo"/>
                     <Menu mode="inline" defaultSelectedKeys={['1']}>
-                        <Menu.Item key="1" icon={<UserOutlined/>}>
+                        <Menu.Item key="1" icon={<ReactIcon width='14' height='14'/>}>
                             React
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<VideoCameraOutlined/>}>
+                        <Menu.Item key="2" icon={<VueIcon width='14' height='14'/>}>
                             Vue
                         </Menu.Item>
                         <Menu.Item key="3" icon={<UploadOutlined/>}>
