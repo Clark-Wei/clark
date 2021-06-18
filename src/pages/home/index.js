@@ -1,40 +1,82 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './style.scss';
 import {Layout, Menu} from 'antd';
 import ReactIcon from '../components/icon/reactIcon';
 import VueIcon from '../components/icon/vueIcon';
+import GameIcon from '../components/icon/gameIcon';
+import Node from '../node';
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
 } from '@ant-design/icons';
 
-
 function Home(props) {
-    let [collapsed, setCollapsed] = useState(false)    // 关闭打开左侧菜单按钮
-
     const {Header, Sider, Content} = Layout;
 
-    let toggle = () => {
-        setCollapsed(!collapsed)
-    };
+    let [collapsed, setCollapsed] = useState(false)    // 关闭打开左侧菜单按钮
+    let [textList, setTextList] = useState([])    // 传入展示的内容
+    let [headerList, setHeaderList] = useState([])    // 传入展示的标题
+    let [selectKey, setSelectKey] = useState('1')    // 当前选中的key值
+
+    const reactText = [
+        'react content 1',
+        'react content 2',
+        'react content 3',
+    ]
+    const vueText = [
+        'vue content 1',
+        'vue content 2',
+        'vue content 3',
+    ]
+    const reactHeader = [
+        'This is react header 1',
+        'This is react header 2',
+        'This is react header 3',
+    ]
+    const vueHeader = [
+        'This is vue header 1',
+        'This is vue header 2',
+        'This is vue header 3',
+    ]
+
+    useEffect(() => {
+        setHeaderList(reactText)
+        setTextList(reactHeader)
+    }, [])
 
     return (
         <div className="Home">
             <Layout>
                 <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
                     <div className="logo"/>
-                    <Menu mode="inline" defaultSelectedKeys={['1']}>
-                        <Menu.Item key="1" icon={<ReactIcon width='14' height='14'/>}>
+                    <Menu mode="inline" defaultSelectedKeys={[selectKey]}>
+                        <Menu.Item key="1"
+                                   icon={<ReactIcon width='14' height='14'/>}
+                                   onClick={() => {
+                                       setHeaderList(reactHeader)
+                                       setTextList(reactText)
+                                       setSelectKey('1')
+                                   }}
+                        >
                             React
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<VueIcon width='14' height='14'/>}>
+                        <Menu.Item key="2"
+                                   icon={<VueIcon width='14' height='14'/>}
+                                   onClick={() => {
+                                       setHeaderList(vueHeader)
+                                       setTextList(vueText)
+                                       setSelectKey('2')
+                                   }}
+                        >
                             Vue
                         </Menu.Item>
-                        <Menu.Item key="3" icon={<UploadOutlined/>}>
-                            nav 3
+                        <Menu.Item key="3"
+                                   icon={<GameIcon width='14' height='14'/>}
+                                   onClick={() => {
+                                       setSelectKey('3')
+                                   }}
+                        >
+                            Game
                         </Menu.Item>
                     </Menu>
                 </Sider>
@@ -42,11 +84,15 @@ function Home(props) {
                     <Header className="site-layout-background" style={{padding: 0}}>
                         {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                             className: 'trigger',
-                            onClick: toggle,
+                            onClick: () => {
+                                setCollapsed(!collapsed)
+                            },
                         })}
                     </Header>
                     <Content className="site-layout-background site-layout-content">
-                        Content
+                        {selectKey === '1' || selectKey === '2' ? (
+                            <Node textList={textList} headerList={headerList}></Node>
+                        ) : '敬请期待'}
                     </Content>
                 </Layout>
             </Layout>
