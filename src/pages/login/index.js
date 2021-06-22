@@ -3,7 +3,7 @@ import './style.scss';
 import {Form, Input, Button, Checkbox} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 
-function Login() {
+function Login(props) {
 
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
@@ -55,8 +55,8 @@ function Login() {
                     </Form.Item>
 
                     <div className="no-password">
-                        <Button type="link" className="button-no-password">
-                            没有账号
+                        <Button type="link" className="button-no-password" onClick={()=>{props.history.push('/')}}>
+                            主页
                         </Button>
                         <Button type="link" className="button-no-password">
                             忘记密码
