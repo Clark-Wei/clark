@@ -4,6 +4,7 @@ import {Layout, Menu} from 'antd';
 import ReactIcon from '../components/icon/reactIcon';
 import VueIcon from '../components/icon/vueIcon';
 import GameIcon from '../components/icon/gameIcon';
+import WorkIcon from '../components/icon/workIcon';
 import Node from '../node';
 import {
     MenuUnfoldOutlined,
@@ -44,6 +45,20 @@ function Home(props) {
         setTextList(reactHeader)
     }, [])
 
+    // 用于展示主体内容
+    let showContent = (selectKey) => {
+        switch (selectKey) {
+            case '1' :
+                return <Node textList={textList} headerList={headerList}/>
+            case '2' :
+                return <Node textList={textList} headerList={headerList}/>
+            case '3':
+                return '敬请期待'
+            case '4':
+                return '只得拥有'
+        }
+    }
+
     return (
         <div className="Home">
             <Layout>
@@ -78,6 +93,14 @@ function Home(props) {
                         >
                             Game
                         </Menu.Item>
+                        <Menu.Item key="4"
+                                   icon={<WorkIcon width='14' height='14'/>}
+                                   onClick={() => {
+                                       setSelectKey('4')
+                                   }}
+                        >
+                            Work
+                        </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
@@ -90,9 +113,7 @@ function Home(props) {
                         })}
                     </Header>
                     <Content className="site-layout-background site-layout-content">
-                        {selectKey === '1' || selectKey === '2' ? (
-                            <Node textList={textList} headerList={headerList}></Node>
-                        ) : '敬请期待'}
+                        {showContent(selectKey)}
                     </Content>
                 </Layout>
             </Layout>
