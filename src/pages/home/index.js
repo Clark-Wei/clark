@@ -7,6 +7,7 @@ import GameIcon from '../components/icon/gameIcon';
 import WorkIcon from '../components/icon/workIcon';
 import Node from '../node';
 import Work from '../work';
+import Game from '../game';
 import AvatarImg from '../components/img/avatar.jpeg';
 
 import {
@@ -56,9 +57,9 @@ function Home(props) {
             case '2' :
                 return <Node textList={textList} headerList={headerList}/>
             case '3':
-                return '敬请期待'
+                return <Game/>
             case '4':
-                return <Work></Work>
+                return <Work/>
         }
     }
 
