@@ -6,27 +6,23 @@ import {ClockCircleOutlined} from '@ant-design/icons';
 function Work() {
     let [isModalVisible, setIsModalVisible] = useState(false);
 
-    let showModal = () => {
-        setIsModalVisible(true);
-    };
-
     let onFinish = (values) => {
         console.log('Success:', values);
-    }
-
-    let onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
     }
 
     return (
         <div className="Work">
             <div className="operate">
-                <Button type="primary" onClick={showModal}>
+                <Button type="primary" onClick={() => {
+                    setIsModalVisible(true)
+                }}>
                     新增
                 </Button>
                 <Modal title="新增"
                        visible={isModalVisible}
-                       onCancel={()=>{setIsModalVisible(false)}}
+                       onCancel={() => {
+                           setIsModalVisible(false)
+                       }}
                        maskClosable={false}
                        footer={null}
                 >
@@ -36,7 +32,6 @@ function Work() {
                         wrapperCol={{span: 16}}
                         initialValues={{remember: true}}
                         onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
                     >
                         <Form.Item
                             label="标题"
@@ -46,10 +41,15 @@ function Work() {
                             <Input/>
                         </Form.Item>
 
-                        <Form.Item name={['user', 'introduction']} label="内容">
+                        <Form.Item
+                            label="内容"
+                            name="textArea"
+                            rules={[{required: true, message: 'Please input your textArea!'}]}
+                        >
                             <Input.TextArea/>
                         </Form.Item>
-                        <Form.Item label="预计完成时间">
+
+                        <Form.Item name="datePicker" label="预计完成时间">
                             <DatePicker/>
                         </Form.Item>
 
