@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import './style.scss';
-import {Layout, Menu} from 'antd';
+import {Layout, Menu, Avatar} from 'antd';
 import ReactIcon from '../components/icon/reactIcon';
 import VueIcon from '../components/icon/vueIcon';
 import GameIcon from '../components/icon/gameIcon';
 import WorkIcon from '../components/icon/workIcon';
 import Node from '../node';
 import Work from '../work';
+import AvatarImg from '../components/img/avatar.jpeg';
 
 import {
     MenuUnfoldOutlined,
@@ -106,13 +107,16 @@ function Home(props) {
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
-                    <Header className="site-layout-background" style={{padding: 0}}>
+                    <Header className="site-layout-background site-layout-header" style={{padding: 0}}>
                         {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                             className: 'trigger',
                             onClick: () => {
                                 setCollapsed(!collapsed)
                             },
                         })}
+                        <div className="avatar-div">
+                            <Avatar size="large" src={AvatarImg}/>
+                        </div>
                     </Header>
                     <Content className="site-layout-background site-layout-content">
                         {showContent(selectKey)}

@@ -1,13 +1,29 @@
 import React, {useState} from 'react';
 import './style.scss';
-import {Timeline, Button, Modal, Form, Input, DatePicker} from 'antd';
+import {Timeline, Button, Modal, Form, Input, DatePicker, Popconfirm, message} from 'antd';
 import {ClockCircleOutlined} from '@ant-design/icons';
+import CircleIcon from '../components/icon/circleIcon'
 
 function Work() {
-    let [isModalVisible, setIsModalVisible] = useState(false);
+    let [isModalVisible, setIsModalVisible] = useState(false);   // 点击新增弹窗
+    let [whiceIcon, setWhiceIcon] = useState(1);   // 显示哪个圆圈icon
 
     let onFinish = (values) => {
         console.log('Success:', values);
+    }
+
+    // 点击小圆圈触发
+    let circleClick = () => {
+        message.info('Clicked on Yes.');
+    }
+
+    // 抉择圆圈icon
+    let checkCircleIcon = (key) => {
+        switch (key) {
+            case 1 :
+                return <CircleIcon className="timeline-mIcon" type={'true'}/>
+                break
+        }
     }
 
     return (
@@ -62,20 +78,63 @@ function Work() {
                 </Modal>
             </div>
             <div className="timeline-div">
-                <Timeline mode="alternate">
-                    <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-                    <Timeline.Item color="green">Solve initial network problems 2015-09-01</Timeline.Item>
-                    <Timeline.Item dot={<ClockCircleOutlined style={{fontSize: '16px'}}/>}>
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                <Timeline mode="alternate" pending={false}>
+                    <Timeline.Item dot={checkCircleIcon(1)}>
+                        <Popconfirm
+                            placement="top"
+                            title={'Are you sure to delete this task?'}
+                            onConfirm={circleClick}
+                            okText="Yes" cancelText="No">
+                            <span className="timeline-content">Create a services site 2015-09-01</span>
+                        </Popconfirm>
+                    </Timeline.Item>
+                    <Timeline.Item dot={<CircleIcon className="timeline-mIcon" type={'false'}/>}>
+                        <Popconfirm
+                            placement="top"
+                            title={'Are you sure to delete this task?'}
+                            onConfirm={circleClick}
+                            okText="Yes" cancelText="No">
+                            <span className="timeline-content">Solve initial network problems 2015-09-02</span>
+                        </Popconfirm>
+                    </Timeline.Item>
+                    <Timeline.Item dot={<ClockCircleOutlined className="timeline-icon"/>}>
+                        <Popconfirm
+                            placement="top"
+                            title={'Are you sure to delete this task?'}
+                            onConfirm={circleClick}
+                            okText="Yes" cancelText="No">
+                            <span className="timeline-content">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
                         laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                        beatae vitae dicta sunt explicabo.
+                        beatae vitae dicta sunt explicabo.</span>
+                        </Popconfirm>
                     </Timeline.Item>
-                    <Timeline.Item color="red">Network problems being solved 2015-09-01</Timeline.Item>
-                    <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-                    <Timeline.Item dot={<ClockCircleOutlined style={{fontSize: '16px'}}/>}>
-                        Technical testing 2015-09-01
+                    <Timeline.Item dot={<CircleIcon className="timeline-mIcon" type={'wait'}/>}>
+                        <Popconfirm
+                            placement="top"
+                            title={'Are you sure to delete this task?'}
+                            onConfirm={circleClick}
+                            okText="Yes" cancelText="No">
+                            <span className="timeline-content">Network problems being solved 2015-09-01</span>
+                        </Popconfirm>
                     </Timeline.Item>
-
+                    <Timeline.Item dot={<CircleIcon className="timeline-mIcon" type={'true'}/>}>
+                        <Popconfirm
+                            placement="top"
+                            title={'Are you sure to delete this task?'}
+                            onConfirm={circleClick}
+                            okText="Yes" cancelText="No">
+                            <span className="timeline-content">Create a services site 2015-09-01</span>
+                        </Popconfirm>
+                    </Timeline.Item>
+                    <Timeline.Item dot={<ClockCircleOutlined className="timeline-icon"/>}>
+                        <Popconfirm
+                            placement="top"
+                            title={'Are you sure to delete this task?'}
+                            onConfirm={circleClick}
+                            okText="Yes" cancelText="No">
+                            <span className="timeline-content">Technical testing 2015-09-04</span>
+                        </Popconfirm>
+                    </Timeline.Item>
                 </Timeline>
             </div>
         </div>
