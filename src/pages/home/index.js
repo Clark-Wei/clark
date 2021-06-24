@@ -6,6 +6,8 @@ import VueIcon from '../components/icon/vueIcon';
 import GameIcon from '../components/icon/gameIcon';
 import WorkIcon from '../components/icon/workIcon';
 import Node from '../node';
+import Work from '../work';
+
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
@@ -55,7 +57,7 @@ function Home(props) {
             case '3':
                 return '敬请期待'
             case '4':
-                return '只得拥有'
+                return <Work></Work>
         }
     }
 
