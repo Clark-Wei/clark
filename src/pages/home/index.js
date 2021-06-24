@@ -68,7 +68,7 @@ function Home(props) {
                     <div className="logo"/>
                     <Menu mode="inline" defaultSelectedKeys={[selectKey]}>
                         <Menu.Item key="1"
-                                   icon={<ReactIcon width='14' height='14'/>}
+                                   icon={<ReactIcon width='20' height='20'/>}
                                    onClick={() => {
                                        setHeaderList(reactHeader)
                                        setTextList(reactText)
@@ -78,7 +78,7 @@ function Home(props) {
                             React
                         </Menu.Item>
                         <Menu.Item key="2"
-                                   icon={<VueIcon width='14' height='14'/>}
+                                   icon={<VueIcon width='20' height='20'/>}
                                    onClick={() => {
                                        setHeaderList(vueHeader)
                                        setTextList(vueText)
@@ -88,7 +88,7 @@ function Home(props) {
                             Vue
                         </Menu.Item>
                         <Menu.Item key="3"
-                                   icon={<GameIcon width='14' height='14'/>}
+                                   icon={<GameIcon width='20' height='20'/>}
                                    onClick={() => {
                                        setSelectKey('3')
                                    }}
@@ -96,7 +96,7 @@ function Home(props) {
                             Game
                         </Menu.Item>
                         <Menu.Item key="4"
-                                   icon={<WorkIcon width='14' height='14'/>}
+                                   icon={<WorkIcon width='20' height='20'/>}
                                    onClick={() => {
                                        setSelectKey('4')
                                    }}
