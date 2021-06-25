@@ -5,6 +5,8 @@ import {ClockCircleOutlined} from '@ant-design/icons';
 import CircleIcon from '../components/icon/circleIcon'
 
 function Work() {
+    const {TextArea} = Input;
+
     let [isModalVisible, setIsModalVisible] = useState(false);   // 点击新增弹窗
     let [whiceIcon, setWhiceIcon] = useState(1);   // 显示哪个圆圈icon
 
@@ -66,7 +68,7 @@ function Work() {
                         </Form.Item>
 
                         <Form.Item name="datePicker" label="预计完成时间">
-                            <DatePicker/>
+                            <DatePicker placeholder={'选择时间'}/>
                         </Form.Item>
 
                         <Form.Item wrapperCol={{offset: 8, span: 16}}>
@@ -82,9 +84,10 @@ function Work() {
                     <Timeline.Item dot={checkCircleIcon(1)}>
                         <Popconfirm
                             placement="top"
-                            title={'Are you sure to delete this task?'}
+                            icon={checkCircleIcon(1)}
+                            title={<TextArea autoSize/>}
                             onConfirm={circleClick}
-                            okText="Yes" cancelText="No">
+                            okText="确认" cancelText="取消">
                             <span className="timeline-content">Create a services site 2015-09-01</span>
                         </Popconfirm>
                     </Timeline.Item>
