@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import {Collapse} from 'antd';
+import {Collapse, Button} from 'antd';
 
 function Node(props) {
     const {textList, headerList} = props;
@@ -10,8 +10,13 @@ function Node(props) {
         console.log(key);
     }
 
+
+
     return (
         <div className="Text">
+            <div className="add-button-div">
+                <Button type="primary">新增</Button>
+            </div>
             <Collapse defaultActiveKey={['1']} onChange={callback}>
                 {headerList.map((item, key) => {
                     return (
@@ -21,6 +26,8 @@ function Node(props) {
                     )
                 })}
             </Collapse>
+
+
         </div>
     );
 }

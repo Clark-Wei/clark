@@ -5,9 +5,11 @@ import ReactIcon from '../components/icon/reactIcon';
 import VueIcon from '../components/icon/vueIcon';
 import GameIcon from '../components/icon/gameIcon';
 import WorkIcon from '../components/icon/workIcon';
+import StatisticIcon from '../components/icon/statisticIcon';
 import Node from '../node';
 import Work from '../work';
 import Game from '../game';
+import Statistical from '../statistical';
 import AvatarImg from '../components/img/avatar.jpeg';
 
 import {
@@ -60,6 +62,8 @@ function Home(props) {
                 return <Game/>
             case '4':
                 return <Work/>
+            case '5':
+                return <Statistical/>
         }
     }
 
@@ -104,6 +108,14 @@ function Home(props) {
                                    }}
                         >
                             Work
+                        </Menu.Item>
+                        <Menu.Item key="5"
+                                   icon={<StatisticIcon width='20' height='20'/>}
+                                   onClick={() => {
+                                       setSelectKey('5')
+                                   }}
+                        >
+                            Statistic
                         </Menu.Item>
                     </Menu>
                 </Sider>
