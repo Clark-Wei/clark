@@ -59,7 +59,7 @@ function Home(props) {
             case '2' :
                 return <Node textList={textList} headerList={headerList}/>
             case '3':
-                return <Game/>
+                return <Game history={props.history}/>
             case '4':
                 return <Work/>
             case '5':

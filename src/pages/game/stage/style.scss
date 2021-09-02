@@ -1,0 +1,22 @@
+.Stage {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .site-layout {
+    .site-layout-background {
+      background: #fff;
+    }
+    .site-layout-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px 50px;
+      .content {
+        flex: 1;
+        width: 100%;
+        background: #ffffff;
+      }
+    }
+  }
+
+}
