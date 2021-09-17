@@ -4,7 +4,7 @@ import {Timeline, Button, Modal, Form, Input, DatePicker, Popconfirm, message} f
 import {ClockCircleOutlined} from '@ant-design/icons';
 import CircleIcon from '../components/icon/circleIcon'
 
-function WorkSection() {
+function WorkSection(props) {
     const {TextArea} = Input;
 
     let [isModalVisible, setIsModalVisible] = useState(false);   // 点击新增弹窗
@@ -82,14 +82,10 @@ function WorkSection() {
             <div className="timeline-div">
                 <Timeline mode="alternate" pending={false}>
                     <Timeline.Item dot={checkCircleIcon(1)}>
-                        <Popconfirm
-                            placement="top"
-                            icon={checkCircleIcon(1)}
-                            title={<TextArea autoSize/>}
-                            onConfirm={circleClick}
-                            okText="确认" cancelText="取消">
-                            <span className="timeline-content">Create a services site 2015-09-01</span>
-                        </Popconfirm>
+                        <span className="timeline-content"
+                              onClick={() => {
+                                  props.history.push('/work/edit')
+                              }}>Create a services site 2015-09-01</span>
                     </Timeline.Item>
                     <Timeline.Item dot={<CircleIcon className="timeline-mIcon" type={'false'}/>}>
                         <Popconfirm

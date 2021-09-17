@@ -9,6 +9,7 @@ import StatisticIcon from '../components/icon/statisticIcon';
 import ReactSection from '../react';
 import VueSection from '../vue';
 import WorkSection from '../work';
+import workEdit from '../work/edit';
 import GameSection from '../game';
 import StatisticSection from '../statistic';
 import AvatarImg from '../components/img/avatar.jpeg';
@@ -57,38 +58,6 @@ function Home(props) {
                                 </Menu.Item>
                             )
                         }))}
-                        {/*<Menu.Item key="2"
-                                   icon={<VueIcon width='20' height='20'/>}
-                                   onClick={() => {
-                                       props.history.push('/vue')
-                                   }}
-                        >
-                            Vue
-                        </Menu.Item>
-                        <Menu.Item key="3"
-                                   icon={<GameIcon width='20' height='20'/>}
-                                   onClick={() => {
-                                       props.history.push('/game')
-                                   }}
-                        >
-                            Game
-                        </Menu.Item>
-                        <Menu.Item key="4"
-                                   icon={<WorkIcon width='20' height='20'/>}
-                                   onClick={() => {
-                                       props.history.push('/work')
-                                   }}
-                        >
-                            Work
-                        </Menu.Item>
-                        <Menu.Item key="5"
-                                   icon={<StatisticIcon width='20' height='20'/>}
-                                   onClick={() => {
-                                       props.history.push('/statistic')
-                                   }}
-                        >
-                            Statistic
-                        </Menu.Item>*/}
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
@@ -104,12 +73,12 @@ function Home(props) {
                         </div>
                     </Header>
                     <Content className="site-layout-background site-layout-content">
-                        {/*{showContent(selectKey)}*/}
                         <HashRouter>
                             <Switch>
                                 <Route path="/react" component={ReactSection}></Route>
                                 <Route path="/vue" component={VueSection}></Route>
                                 <Route path="/game" component={GameSection}></Route>
+                                <Route path="/work/edit" component={workEdit}></Route>
                                 <Route path="/work" component={WorkSection}></Route>
                                 <Route path="/statistic" component={StatisticSection}></Route>
                             </Switch>
