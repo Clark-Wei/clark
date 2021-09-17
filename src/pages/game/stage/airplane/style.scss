@@ -1,8 +1,8 @@
 .Airplane {
   user-select: none;
   height: 100%;
-  background: url("../../../components/img/airplaneImgs/bg.jpg") no-repeat;
-  background-size: 100% 100%;
+  background: url("../../../components/img/airplaneImgs/bg.jpg") no-repeat center;
+  background-size: auto 100%;
   .start-button {
     position: absolute;
     top: 50%;

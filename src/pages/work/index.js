@@ -4,7 +4,7 @@ import {Timeline, Button, Modal, Form, Input, DatePicker, Popconfirm, message} f
 import {ClockCircleOutlined} from '@ant-design/icons';
 import CircleIcon from '../components/icon/circleIcon'
 
-function Work() {
+function WorkSection() {
     const {TextArea} = Input;
 
     let [isModalVisible, setIsModalVisible] = useState(false);   // 点击新增弹窗
@@ -144,4 +144,4 @@ function Work() {
     );
 }
 
-export default Work;
+export default WorkSection;

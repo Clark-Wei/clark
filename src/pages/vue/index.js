@@ -2,15 +2,23 @@ import React from 'react';
 import './style.scss';
 import {Collapse, Button} from 'antd';
 
-function Node(props) {
-    const {textList, headerList} = props;
+function VueSection(props) {
     const {Panel} = Collapse;
 
     let callback = (key) => {
         console.log(key);
     }
 
-
+    const vueText = [
+        'vue content 1',
+        'vue content 2',
+        'vue content 3',
+    ]
+    const vueHeader = [
+        'This is vue header 1',
+        'This is vue header 2',
+        'This is vue header 3',
+    ]
 
     return (
         <div className="Text">
@@ -18,10 +26,10 @@ function Node(props) {
                 <Button type="primary">新增</Button>
             </div>
             <Collapse defaultActiveKey={['1']} onChange={callback}>
-                {headerList.map((item, key) => {
+                {vueText.map((item, key) => {
                     return (
                         <Panel header={item} key={key + 1}>
-                            <p>{textList[key]}</p>
+                            <p>{vueHeader[key]}</p>
                         </Panel>
                     )
                 })}
@@ -32,4 +40,4 @@ function Node(props) {
     );
 }
 
-export default Node;
+export default VueSection;

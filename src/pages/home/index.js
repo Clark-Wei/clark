@@ -6,89 +6,61 @@ import VueIcon from '../components/icon/vueIcon';
 import GameIcon from '../components/icon/gameIcon';
 import WorkIcon from '../components/icon/workIcon';
 import StatisticIcon from '../components/icon/statisticIcon';
-import Node from '../node';
-import Work from '../work';
-import Game from '../game';
-import Statistical from '../statistical';
+import ReactSection from '../react';
+import VueSection from '../vue';
+import WorkSection from '../work';
+import GameSection from '../game';
+import StatisticSection from '../statistic';
 import AvatarImg from '../components/img/avatar.jpeg';
 
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
 } from '@ant-design/icons';
+import {HashRouter, Route, Switch} from "react-router-dom";
 
 function Home(props) {
     const {Header, Sider, Content} = Layout;
 
-    let [collapsed, setCollapsed] = useState(false)    // 关闭打开左侧菜单按钮
-    let [textList, setTextList] = useState([])    // 传入展示的内容
-    let [headerList, setHeaderList] = useState([])    // 传入展示的标题
-    let [selectKey, setSelectKey] = useState('1')    // 当前选中的key值
+    let [collapsed, setCollapsed] = useState(false)        // 关闭打开左侧菜单按钮
+    let [selectedKeys, setSelectedKeys] = useState('1')    // 当前选中的菜单项 key 数组
+    let menuList = [               // 菜单列表
+        {id: '1', push: '/react', name: 'React', icon: <ReactIcon width='20' height='20'/>},
+        {id: '2', push: '/vue', name: 'Vue', icon: <VueIcon width='20' height='20'/>},
+        {id: '3', push: '/game', name: 'Game', icon: <GameIcon width='20' height='20'/>},
+        {id: '4', push: '/work', name: 'Work', icon: <WorkIcon width='20' height='20'/>},
+        {id: '5', push: '/statistic', name: 'Statistic', icon: <StatisticIcon width='20' height='20'/>},
+    ]
 
-    const reactText = [
-        'react content 1',
-        'react content 2',
-        'react content 3',
-    ]
-    const vueText = [
-        'vue content 1',
-        'vue content 2',
-        'vue content 3',
-    ]
-    const reactHeader = [
-        'This is react header 1',
-        'This is react header 2',
-        'This is react header 3',
-    ]
-    const vueHeader = [
-        'This is vue header 1',
-        'This is vue header 2',
-        'This is vue header 3',
-    ]
 
     useEffect(() => {
-        setHeaderList(reactText)
-        setTextList(reactHeader)
-    }, [])
-
-    // 用于展示主体内容
-    let showContent = (selectKey) => {
-        switch (selectKey) {
-            case '1' :
-                return <Node textList={textList} headerList={headerList}/>
-            case '2' :
-                return <Node textList={textList} headerList={headerList}/>
-            case '3':
-                return <Game history={props.history}/>
-            case '4':
-                return <Work/>
-            case '5':
-                return <Statistical/>
+        for (let i = 0; i < menuList.length; i++) {
+            if (props.location.pathname.indexOf(menuList[i].push) !== -1) setSelectedKeys(menuList[i].id)
         }
-    }
+    }, [props.location.pathname])
 
     return (
         <div className="Home">
             <Layout>
                 <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
                     <div className="logo"/>
-                    <Menu mode="inline" defaultSelectedKeys={[selectKey]}>
-                        <Menu.Item key="1"
-                                   icon={<ReactIcon width='20' height='20'/>}
-                                   onClick={() => {
-                                       setHeaderList(reactHeader)
-                                       setTextList(reactText)
-                                       setSelectKey('1')
-                                   }}
-                        >
-                            React
-                        </Menu.Item>
-                        <Menu.Item key="2"
+                    <Menu mode="inline" selectedKeys={[selectedKeys]}>
+                        {menuList.map((item => {
+                            return (
+                                <Menu.Item key={item.id}
+                                           icon={item.icon}
+                                           onClick={() => {
+                                               props.history.push(item.push)
+                                           }}
+                                >
+                                    {item.name}
+                                </Menu.Item>
+                            )
+                        }))}
+                        {/*<Menu.Item key="2"
                                    icon={<VueIcon width='20' height='20'/>}
                                    onClick={() => {
-                                       setHeaderList(vueHeader)
-                                       setTextList(vueText)
-                                       setSelectKey('2')
+                                       props.history.push('/vue')
                                    }}
                         >
                             Vue
@@ -96,7 +68,7 @@ function Home(props) {
                         <Menu.Item key="3"
                                    icon={<GameIcon width='20' height='20'/>}
                                    onClick={() => {
-                                       setSelectKey('3')
+                                       props.history.push('/game')
                                    }}
                         >
                             Game
@@ -104,7 +76,7 @@ function Home(props) {
                         <Menu.Item key="4"
                                    icon={<WorkIcon width='20' height='20'/>}
                                    onClick={() => {
-                                       setSelectKey('4')
+                                       props.history.push('/work')
                                    }}
                         >
                             Work
@@ -112,11 +84,11 @@ function Home(props) {
                         <Menu.Item key="5"
                                    icon={<StatisticIcon width='20' height='20'/>}
                                    onClick={() => {
-                                       setSelectKey('5')
+                                       props.history.push('/statistic')
                                    }}
                         >
                             Statistic
-                        </Menu.Item>
+                        </Menu.Item>*/}
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
@@ -132,7 +104,16 @@ function Home(props) {
                         </div>
                     </Header>
                     <Content className="site-layout-background site-layout-content">
-                        {showContent(selectKey)}
+                        {/*{showContent(selectKey)}*/}
+                        <HashRouter>
+                            <Switch>
+                                <Route path="/react" component={ReactSection}></Route>
+                                <Route path="/vue" component={VueSection}></Route>
+                                <Route path="/game" component={GameSection}></Route>
+                                <Route path="/work" component={WorkSection}></Route>
+                                <Route path="/statistic" component={StatisticSection}></Route>
+                            </Switch>
+                        </HashRouter>
                     </Content>
                 </Layout>
             </Layout>

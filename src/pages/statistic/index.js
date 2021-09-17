@@ -3,7 +3,7 @@ import './style.scss';
 import {Statistic, Row, Col, Button} from 'antd';
 import { LikeOutlined } from '@ant-design/icons';
 
-function Statistical() {
+function StatisticSection() {
     return (
         <div className="Statistic">
             <Row gutter={16}>
@@ -33,4 +33,4 @@ function Statistical() {
     );
 }
 
-export default Statistical;
+export default StatisticSection;

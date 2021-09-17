@@ -9,7 +9,7 @@ import {
     MenuFoldOutlined,
 } from '@ant-design/icons';
 
-function Game(props) {
+function GameSection(props) {
     const {history} = props;
 
     const {Meta} = Card;
@@ -39,7 +39,7 @@ function Game(props) {
     )
 
     const contentStyle = {
-        height: '160px',
+        height: '100%',
         color: '#fff',
         lineHeight: '160px',
         textAlign: 'center',
@@ -52,7 +52,7 @@ function Game(props) {
                 <div className="banner">
                     <img src={airplaneBgImg} alt="" className="img-list"/>
                 </div>
-                <div>
+                <div className="banner">
                     <h3 style={contentStyle}>2</h3>
                 </div>
             </Carousel>
@@ -84,4 +84,4 @@ function Game(props) {
     );
 }
 
-export default Game
+export default GameSection
