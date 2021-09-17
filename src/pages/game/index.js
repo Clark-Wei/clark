@@ -38,14 +38,6 @@ function GameSection(props) {
         </Comment>
     )
 
-    const contentStyle = {
-        height: '100%',
-        color: '#fff',
-        lineHeight: '160px',
-        textAlign: 'center',
-        background: '#364d79',
-    }
-
     return (
         <div className="Game">
             <Carousel autoplay>
@@ -53,12 +45,12 @@ function GameSection(props) {
                     <img src={airplaneBgImg} alt="" className="img-list"/>
                 </div>
                 <div className="banner">
-                    <h3 style={contentStyle}>2</h3>
+                    <img src={airplaneBgImg} alt="" className="img-list"/>
                 </div>
             </Carousel>
 
             <div className="content-box">
-                <Link to={'/stage'} target={'_blank'}>
+                <Link to={'/stage/airplane'} target={'_blank'}>
                     <Card
                         hoverable
                         className="card-list"

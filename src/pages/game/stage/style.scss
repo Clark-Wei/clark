@@ -15,6 +15,9 @@
         flex: 1;
         width: 100%;
         background: #ffffff;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
       }
     }
   }

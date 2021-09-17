@@ -1,8 +1,17 @@
 .Airplane {
   user-select: none;
   height: 100%;
+  width: 512px;
   background: url("../../../components/img/airplaneImgs/bg.jpg") no-repeat center;
   background-size: auto 100%;
+  position: relative;
+  .point-div {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: #ffffff;
+    font-size: 14px;
+  }
   .start-button {
     position: absolute;
     top: 50%;
