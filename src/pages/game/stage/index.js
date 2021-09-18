@@ -1,16 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import "./style.scss"
 import { Layout } from 'antd';
 import Airplane from "./airplane";
 import {HashRouter, Route, Switch} from "react-router-dom";
 
 function Stage(props) {
-    const { Header, Footer, Content } = Layout;
+    const { Header, Content } = Layout;
 
 
-    useEffect(() => {
 
-    },[])
 
 
 

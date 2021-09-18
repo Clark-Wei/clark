@@ -12,6 +12,7 @@ import WorkSection from '../work';
 import workEdit from '../work/edit';
 import GameSection from '../game';
 import StatisticSection from '../statistic';
+import HomeSection from './homeSection';
 import AvatarImg from '../components/img/avatar.jpeg';
 
 import {
@@ -24,7 +25,7 @@ function Home(props) {
     const {Header, Sider, Content} = Layout;
 
     let [collapsed, setCollapsed] = useState(false)        // 关闭打开左侧菜单按钮
-    let [selectedKeys, setSelectedKeys] = useState('1')    // 当前选中的菜单项 key 数组
+    let [selectedKeys, setSelectedKeys] = useState('0')    // 当前选中的菜单项 key 数组
     let menuList = [               // 菜单列表
         {id: '1', push: '/react', name: 'React', icon: <ReactIcon width='20' height='20'/>},
         {id: '2', push: '/vue', name: 'Vue', icon: <VueIcon width='20' height='20'/>},
@@ -34,10 +35,15 @@ function Home(props) {
     ]
 
 
+    // 导航条选中
     useEffect(() => {
         for (let i = 0; i < menuList.length; i++) {
-            if (props.location.pathname.indexOf(menuList[i].push) !== -1) setSelectedKeys(menuList[i].id)
+            if (props.location.pathname.indexOf(menuList[i].push) !== -1) {
+                setSelectedKeys(menuList[i].id)
+                return
+            }
         }
+        setSelectedKeys('0')
     }, [props.location.pathname])
 
     return (
@@ -81,6 +87,7 @@ function Home(props) {
                                 <Route path="/work/edit" component={workEdit}></Route>
                                 <Route path="/work" component={WorkSection}></Route>
                                 <Route path="/statistic" component={StatisticSection}></Route>
+                                <Route path="/" component={HomeSection}></Route>
                             </Switch>
                         </HashRouter>
                     </Content>

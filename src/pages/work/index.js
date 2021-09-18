@@ -5,10 +5,7 @@ import {ClockCircleOutlined} from '@ant-design/icons';
 import CircleIcon from '../components/icon/circleIcon'
 
 function WorkSection(props) {
-    const {TextArea} = Input;
-
     let [isModalVisible, setIsModalVisible] = useState(false);   // 点击新增弹窗
-    let [whiceIcon, setWhiceIcon] = useState(1);   // 显示哪个圆圈icon
 
     let onFinish = (values) => {
         console.log('Success:', values);
@@ -17,15 +14,6 @@ function WorkSection(props) {
     // 点击小圆圈触发
     let circleClick = () => {
         message.info('Clicked on Yes.');
-    }
-
-    // 抉择圆圈icon
-    let checkCircleIcon = (key) => {
-        switch (key) {
-            case 1 :
-                return <CircleIcon className="timeline-mIcon" type={'true'}/>
-                break
-        }
     }
 
     return (
@@ -81,7 +69,7 @@ function WorkSection(props) {
             </div>
             <div className="timeline-div">
                 <Timeline mode="alternate" pending={false}>
-                    <Timeline.Item dot={checkCircleIcon(1)}>
+                    <Timeline.Item dot={<CircleIcon className="timeline-mIcon" type={'true'}/>}>
                         <span className="timeline-content"
                               onClick={() => {
                                   props.history.push('/work/edit')

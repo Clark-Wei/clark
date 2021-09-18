@@ -12,6 +12,8 @@
     color: #ffffff;
     font-size: 14px;
   }
+
+  // 开始快关
   .start-button {
     position: absolute;
     top: 50%;
@@ -35,6 +37,19 @@
     &:active {
       background: -webkit-linear-gradient(top, #fffffff9, #89898999);
     }
+  }
+
+  // 自己
+  .hero-img {
+    position: absolute;
+    width: 100px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+  }
+  .show {
+    display: block;
   }
 
 }
