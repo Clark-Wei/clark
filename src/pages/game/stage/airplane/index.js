@@ -11,6 +11,12 @@ function Airplane(props) {
         start: false,   // 游戏开始
         point: 0,   // 积分
     })
+    let [direction, setDirection] = useState({    // 方向
+        left: false,
+        top: false,
+        right: false,
+        bottom: false,
+    })
     let [mine, setMine] = useState({     // 我机类
         img: heroImg,
         x: 0,
@@ -38,31 +44,95 @@ function Airplane(props) {
             mine.y = bg.current.scrollHeight - hero.current.height
             setMine({...mine})
         }, 0)
-    }
-    let checkBeyond = (type) => {
-        window.addEventListener('keydown', (e) => {
-            console.log(e.keyCode)
 
+        // 移动
+        move()
+    }
+    // 移动
+    let move = () => {
+        // 改变方向
+        let changeDirection = (type, state) => {
+            direction[type] = state
+            setDirection({...direction})
+        }
+        // 验证距离
+        let checkmargin = (type, state) => {
+            if (type === 'x')
+                if (state === '-')
+                    if (mine.x - 20 < 0) {
+                        return false
+                    } else {
+                        return true
+                    }
+                else {
+                    if (mine.x + 20 > bg.current.scrollWidth - hero.current.width) {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+
+            if (type === 'y')
+                if (state === '-')
+                    if (mine.y - 20 < 0) {
+                        return false
+                    } else {
+                        return true
+                    }
+                else {
+                    if (mine.y + 20 > bg.current.scrollHeight - hero.current.height) {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+        }
+
+        window.addEventListener('keydown', (e) => {
             switch (e.keyCode) {
                 case 37:
-                    if (mine.x - 20 < 0) return
-                    mine.x -= 20
+                    if (checkmargin('x', '-')) mine.x -= 20
+                    if (direction.top && checkmargin('y', '-')) mine.y -= 20
+                    if (direction.bottom && checkmargin('y', '+')) mine.y += 20
                     setMine({...mine})
+                    changeDirection('left', true)
                     break
                 case 38:
-                    if (mine.y - 20 < 0) return
-                    mine.y -= 20
+                    if (checkmargin('y', '-')) mine.y -= 20
+                    if (direction.left && checkmargin('x', '-')) mine.x -= 20
+                    if (direction.right && checkmargin('x', '+')) mine.x += 20
                     setMine({...mine})
+                    changeDirection('top', true)
                     break
                 case 39:
-                    if (mine.x + 20 > bg.current.scrollWidth - hero.current.width) return
-                    mine.x += 20
+                    if (checkmargin('x', '+')) mine.x += 20
+                    if (direction.top && checkmargin('y', '-')) mine.y -= 20
+                    if (direction.bottom && checkmargin('y', '+')) mine.y += 20
                     setMine({...mine})
+                    changeDirection('right', true)
                     break
                 case 40:
-                    if (mine.y + 20 > bg.current.scrollHeight - hero.current.height) return
-                    mine.y += 20
+                    if (checkmargin('y', '+')) mine.y += 20
+                    if (direction.left && checkmargin('x', '-')) mine.x -= 20
+                    if (direction.right && checkmargin('x', '+')) mine.x += 20
                     setMine({...mine})
+                    changeDirection('bottom', true)
+                    break
+            }
+        })
+        window.addEventListener('keyup', (e) => {
+            switch (e.keyCode) {
+                case 37:
+                    changeDirection('left', false)
+                    break
+                case 38:
+                    changeDirection('top', false)
+                    break
+                case 39:
+                    changeDirection('right', false)
+                    break
+                case 40:
+                    changeDirection('bottom', false)
                     break
             }
         })
