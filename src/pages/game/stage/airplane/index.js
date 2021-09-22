@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react'
 import "./style.scss"
 import {CaretRightOutlined} from '@ant-design/icons';
 import heroImg from '../../../components/img/airplaneImgs/hero.png';
+import bulletImg from '../../../components/img/airplaneImgs/bullet.png';
 
 function Airplane(props) {
     let hero = useRef(null) // 我机
@@ -16,15 +17,28 @@ function Airplane(props) {
         top: false,
         right: false,
         bottom: false,
+        bullet: false,
     })
     let [mine, setMine] = useState({     // 我机类
         img: heroImg,
         x: 0,
         y: 0,
+        width: 0,
+        height: 0,
     })
     let [enemyPlane, setEnemyPlane] = useState({     // 敌机类
     })
     let [bullet, setBullet] = useState({     // 子弹类
+        img: bulletImg,
+        width: 30,
+        height: 30 + 22,
+        list: [
+            // {
+            //     x: 0,
+            //     y: 0,
+            //     interVal: null
+            // }
+        ]
     })
     let [blowUp, setBlowUp] = useState({     // 爆炸类
     })
@@ -39,6 +53,7 @@ function Airplane(props) {
         game.start = true
         setGame({...game})
 
+        // 确定我方位置
         setTimeout(() => {
             mine.x = bg.current.scrollWidth / 2 - hero.current.width / 2
             mine.y = bg.current.scrollHeight - hero.current.height
@@ -88,8 +103,38 @@ function Airplane(props) {
                 }
         }
 
+        let handleRise = (value, obj) => {
+            value -= 20
+            obj.y = value
+            setBullet({...bullet})
+            if (value >= 0 - bullet.height) {
+                setTimeout(() => {
+                    handleRise(value, obj)
+                }, 50)
+            }
+        }
+        let rise = () => {
+            bullet.list.forEach((item) => {
+                if (item.y >= 0) {
+                    setTimeout(() => {
+                        handleRise(item.y, item)
+                    }, 50)
+                }
+            })
+        }
+
+
         window.addEventListener('keydown', (e) => {
             switch (e.keyCode) {
+                case 32:
+                    bullet.list.push({
+                        id: new Date().getTime(),
+                        x: mine.x + hero.current.scrollWidth / 2 - bullet.width / 2,
+                        y: mine.y - hero.current.height / 2
+                    })
+                    setBullet({...bullet})
+                    rise()
+                    break
                 case 37:
                     if (checkmargin('x', '-')) mine.x -= 20
                     if (direction.top && checkmargin('y', '-')) mine.y -= 20
@@ -146,9 +191,20 @@ function Airplane(props) {
                     <CaretRightOutlined/>
                 </div>
             ) : ''}
+
             <img src={mine.img}
                  style={{top: mine.y, left: mine.x}}
                  className={'hero-img ' + (game.start ? 'show' : '')} ref={hero}/>
+
+            {bullet.list.map((item) => {
+                return (
+                    <img key={item.id}
+                         src={bullet.img}
+                         className='bullet'
+                         style={{top: item.y, left: item.x, width: bullet.width, height: bullet.height}}
+                    />
+                )
+            })}
         </div>
     );
 }
