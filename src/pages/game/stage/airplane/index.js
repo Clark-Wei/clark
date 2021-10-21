@@ -3,8 +3,16 @@ import "./style.scss"
 import {CaretRightOutlined} from '@ant-design/icons';
 import heroImg from '../../../components/img/airplaneImgs/hero.png';
 import bulletImg from '../../../components/img/airplaneImgs/bullet.png';
+import enemyImg from '../../../components/img/airplaneImgs/enemy.png';
 
 function Airplane(props) {
+
+    const MOVE_RATE = 70   // 移动速率
+    const BULLET_RATE = 100   // 子弹发射频率
+    const BULLET_RISE_RATE = 20   // 子弹上升速度
+    const ENEMY_RATE = 2000   // 敌机刷新速度
+    const ENEMY_DOWN_RATE = 100   // 敌机下降速度
+
     let hero = useRef(null) // 我机
     let bg = useRef(null) // 背景
 
@@ -14,27 +22,22 @@ function Airplane(props) {
         moveTimer: null,   // 我机移动定时器
         bulletTimer: null,   // 子弹发射定时器
         bulletRiseTimer: null,   // 子弹上升定时器
+        enemyTimer: null,   // 敌机出现定时器
+        enemyDownTimer: null,   // 敌机下降定时器
     })
     let [mine, setMine] = useState({     // 我机类
-        img: heroImg,
         x: 0,
         y: 0,
-        width: 0,
-        height: 0,
     })
     let [enemyPlane, setEnemyPlane] = useState({     // 敌机类
+        width: 90,
+        height: 60,
+        list: []
     })
     let [bullet, setBullet] = useState({     // 子弹类
-        img: bulletImg,
         width: 30,
-        height: 30 + 22,
-        list: [
-            // {
-            //     x: 0,
-            //     y: 0,
-            //     interVal: null
-            // }
-        ]
+        height: 52,
+        list: []
     })
     let [blowUp, setBlowUp] = useState({     // 爆炸类
     })
@@ -123,6 +126,8 @@ function Airplane(props) {
                 x: mine.x + hero.current.scrollWidth / 2 - bullet.width / 2,
                 y: mine.y - hero.current.height / 2
             })
+            setBullet({...bullet})
+            // 子弹上升
             if (!game.bulletRiseTimer) {
                 game.bulletRiseTimer = setInterval(() => {
                     bullet.list.forEach((item, index) => {
@@ -133,9 +138,40 @@ function Airplane(props) {
                         }
                         setBullet({...bullet})
                     })
-                }, 20)
+                }, BULLET_RISE_RATE)
             }
         }
+
+        // 创造敌机
+        let madeEnemy = () => {
+            // 敌机下降
+            let handleDown = (value, obj) => {
+                value += 20
+                obj.y = value
+            }
+
+            enemyPlane.list.push({
+                id: new Date().getTime(),
+                x: 0,
+                y: 0
+            })
+            setEnemyPlane({...enemyPlane})
+
+            // 敌机下降
+            if (!game.enemyDownTimer) {
+                game.enemyDownTimer = setInterval(() => {
+                    enemyPlane.list.forEach((item, index) => {
+                        if (item.y < bg.current.scrollHeight - enemyPlane.height) {
+                            handleDown(item.y, item)
+                        } else {
+                            enemyPlane.list.splice(index, 1)
+                        }
+                        setEnemyPlane({...enemyPlane})
+                    })
+                }, ENEMY_DOWN_RATE)
+            }
+        }
+
         // 移动速率
         game.moveTimer = setInterval(() => {
             let strDown = downKeys.join()
@@ -144,7 +180,7 @@ function Airplane(props) {
             if (strDown.indexOf('39') > -1) moveRight()
             if (strDown.indexOf('40') > -1) moveDown()
             if (strDown.indexOf('37') > -1 || strDown.indexOf('38') > -1 || strDown.indexOf('39') > -1 || strDown.indexOf('40') > -1) setMine({...mine})
-        }, 70)
+        }, MOVE_RATE)
 
         // 子弹发射频率
         game.bulletTimer = setInterval(() => {
@@ -152,7 +188,14 @@ function Airplane(props) {
                 riseBullet()
                 setBullet({...bullet})
             }
-        }, 100)
+        }, BULLET_RATE)
+
+        // 敌机出现频率
+        game.enemyTimer = setInterval(() => {
+            madeEnemy()
+        }, ENEMY_RATE)
+
+
         setGame({...game})
 
         window.addEventListener('keydown', (e) => {
@@ -168,26 +211,41 @@ function Airplane(props) {
 
     return (
         <div className="Airplane" ref={bg}>
-            <div className="point-div">分数: <span className="point-num">{game.point}</span></div>
+            <div className="point-div">
+                分数:
+                <span className="point-num number">{game.point}</span>
+            </div>
             {!game.start ? (
                 <div className="start-button" onClick={start}>
                     <CaretRightOutlined/>
                 </div>
             ) : ''}
 
-            <img src={mine.img}
+            <img src={heroImg}
                  style={{top: mine.y, left: mine.x}}
                  className={'hero-img ' + (game.start ? 'show' : '')} ref={hero}/>
 
             {bullet.list.map((item) => {
                 return (
                     <img key={item.id}
-                         src={bullet.img}
+                         src={bulletImg}
                          className='bullet'
                          style={{top: item.y, left: item.x, width: bullet.width, height: bullet.height}}
                     />
                 )
             })}
+
+            {enemyPlane.list.map((item) => {
+                return (
+                    <img key={item.id}
+                         src={enemyImg}
+                         className='enemy'
+                         style={{top: item.y, left: item.x, width: enemyPlane.width, height: enemyPlane.height}}
+                    />
+                )
+            })}
+
+
         </div>
     );
 }
