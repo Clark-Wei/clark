@@ -12,13 +12,6 @@ function Airplane(props) {
         start: false,   // 游戏开始
         point: 0,   // 积分
     })
-    let [direction, setDirection] = useState({    // 方向
-        left: false,
-        top: false,
-        right: false,
-        bottom: false,
-        bullet: false,
-    })
     let [mine, setMine] = useState({     // 我机类
         img: heroImg,
         x: 0,
@@ -43,6 +36,7 @@ function Airplane(props) {
     })
     let [blowUp, setBlowUp] = useState({     // 爆炸类
     })
+    let [downKeys, setDownKeys] = useState([])  // 被按下的key
 
 
     useEffect(() => {
@@ -66,10 +60,21 @@ function Airplane(props) {
     }
     // 移动
     let move = () => {
-        // 改变方向
-        let changeDirection = (type, state) => {
-            direction[type] = state
-            setDirection({...direction})
+        // 左移
+        let moveLeft = () => {
+            if (checkmargin('x', '-')) mine.x -= 20
+        }
+        // 上移
+        let moveTop = () => {
+            if (checkmargin('y', '-')) mine.y -= 20
+        }
+        // 右移
+        let moveRight = () => {
+            if (checkmargin('x', '+')) mine.x += 20
+        }
+        // 下移
+        let moveDown = () => {
+            if (checkmargin('y', '+')) mine.y += 20
         }
         // 验证距离
         let checkmargin = (type, state) => {
@@ -110,79 +115,51 @@ function Airplane(props) {
             let handleRise = (value, obj) => {
                 value -= 20
                 obj.y = value
-                setBullet({...bullet})
             }
+            bullet.list.push({
+                id: new Date().getTime(),
+                x: mine.x + hero.current.scrollWidth / 2 - bullet.width / 2,
+                y: mine.y - hero.current.height / 2
+            })
             if (!bullet.interVal) {
                 bullet.interVal = setInterval(() => {
                     bullet.list.forEach((item, index) => {
                         if (item.y >= 0 - bullet.height) {
                             handleRise(item.y, item)
                         } else {
-                            bullet.list.splice(index,1)
-                            setBullet({...bullet})
+                            bullet.list.splice(index, 1)
                         }
+                        setBullet({...bullet})
                     })
-                }, 50)
-                setBullet({...bullet})
+                }, 20)
             }
         }
-        window.addEventListener('keydown', (e) => {
-            switch (e.keyCode) {
-                case 32:
-                    bullet.list.push({
-                        id: new Date().getTime(),
-                        x: mine.x + hero.current.scrollWidth / 2 - bullet.width / 2,
-                        y: mine.y - hero.current.height / 2
-                    })
-                    setBullet({...bullet})
-                    // rise()
-                    riseBullet()
-                    break
-                case 37:
-                    if (checkmargin('x', '-')) mine.x -= 20
-                    if (direction.top && checkmargin('y', '-')) mine.y -= 20
-                    if (direction.bottom && checkmargin('y', '+')) mine.y += 20
-                    setMine({...mine})
-                    changeDirection('left', true)
-                    break
-                case 38:
-                    if (checkmargin('y', '-')) mine.y -= 20
-                    if (direction.left && checkmargin('x', '-')) mine.x -= 20
-                    if (direction.right && checkmargin('x', '+')) mine.x += 20
-                    setMine({...mine})
-                    changeDirection('top', true)
-                    break
-                case 39:
-                    if (checkmargin('x', '+')) mine.x += 20
-                    if (direction.top && checkmargin('y', '-')) mine.y -= 20
-                    if (direction.bottom && checkmargin('y', '+')) mine.y += 20
-                    setMine({...mine})
-                    changeDirection('right', true)
-                    break
-                case 40:
-                    if (checkmargin('y', '+')) mine.y += 20
-                    if (direction.left && checkmargin('x', '-')) mine.x -= 20
-                    if (direction.right && checkmargin('x', '+')) mine.x += 20
-                    setMine({...mine})
-                    changeDirection('bottom', true)
-                    break
+        // 移动速率
+        setInterval(() => {
+            let strDown = downKeys.join()
+            if (strDown.indexOf('37') > -1) moveLeft()
+            if (strDown.indexOf('38') > -1) moveTop()
+            if (strDown.indexOf('39') > -1) moveRight()
+            if (strDown.indexOf('40') > -1) moveDown()
+            if (strDown.indexOf('37') > -1 || strDown.indexOf('38') > -1 || strDown.indexOf('39') > -1 || strDown.indexOf('40') > -1) setMine({...mine})
+        }, 70)
+
+        // 子弹发射频率
+        setInterval(()=>{
+            if (downKeys.join().indexOf('32') > -1) {
+                riseBullet()
+                setBullet({...bullet})
             }
+        },100)
+
+        window.addEventListener('keydown', (e) => {
+            e.preventDefault()
+            downKeys.indexOf(e.keyCode) < 0 && downKeys.push(e.keyCode);
+            downKeys.sort((a, b) => a - b)
+            setDownKeys([...downKeys])
         })
         window.addEventListener('keyup', (e) => {
-            switch (e.keyCode) {
-                case 37:
-                    changeDirection('left', false)
-                    break
-                case 38:
-                    changeDirection('top', false)
-                    break
-                case 39:
-                    changeDirection('right', false)
-                    break
-                case 40:
-                    changeDirection('bottom', false)
-                    break
-            }
+            downKeys.splice(downKeys.indexOf(e.keyCode), 1)
         })
     }
 
