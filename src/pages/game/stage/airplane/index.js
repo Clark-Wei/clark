@@ -32,6 +32,7 @@ function Airplane(props) {
         img: bulletImg,
         width: 30,
         height: 30 + 22,
+        interVal: null,
         list: [
             // {
             //     x: 0,
@@ -103,27 +104,28 @@ function Airplane(props) {
                 }
         }
 
-        let handleRise = (value, obj) => {
-            value -= 20
-            obj.y = value
-            setBullet({...bullet})
-            if (value >= 0 - bullet.height) {
-                setTimeout(() => {
-                    handleRise(value, obj)
+        // 子弹上升方法
+        let riseBullet = () => {
+            // 子弹上升操作
+            let handleRise = (value, obj) => {
+                value -= 20
+                obj.y = value
+                setBullet({...bullet})
+            }
+            if (!bullet.interVal) {
+                bullet.interVal = setInterval(() => {
+                    bullet.list.forEach((item, index) => {
+                        if (item.y >= 0 - bullet.height) {
+                            handleRise(item.y, item)
+                        } else {
+                            bullet.list.splice(index,1)
+                            setBullet({...bullet})
+                        }
+                    })
                 }, 50)
+                setBullet({...bullet})
             }
         }
-        let rise = () => {
-            bullet.list.forEach((item) => {
-                if (item.y >= 0) {
-                    setTimeout(() => {
-                        handleRise(item.y, item)
-                    }, 50)
-                }
-            })
-        }
-
-
         window.addEventListener('keydown', (e) => {
             switch (e.keyCode) {
                 case 32:
@@ -133,7 +135,8 @@ function Airplane(props) {
                         y: mine.y - hero.current.height / 2
                     })
                     setBullet({...bullet})
-                    rise()
+                    // rise()
+                    riseBullet()
                     break
                 case 37:
                     if (checkmargin('x', '-')) mine.x -= 20
