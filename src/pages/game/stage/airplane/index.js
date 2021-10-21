@@ -11,6 +11,9 @@ function Airplane(props) {
     let [game, setGame] = useState({     // 游戏类
         start: false,   // 游戏开始
         point: 0,   // 积分
+        moveTimer: null,   // 我机移动定时器
+        bulletTimer: null,   // 子弹发射定时器
+        bulletRiseTimer: null,   // 子弹上升定时器
     })
     let [mine, setMine] = useState({     // 我机类
         img: heroImg,
@@ -25,7 +28,6 @@ function Airplane(props) {
         img: bulletImg,
         width: 30,
         height: 30 + 22,
-        interVal: null,
         list: [
             // {
             //     x: 0,
@@ -121,8 +123,8 @@ function Airplane(props) {
                 x: mine.x + hero.current.scrollWidth / 2 - bullet.width / 2,
                 y: mine.y - hero.current.height / 2
             })
-            if (!bullet.interVal) {
-                bullet.interVal = setInterval(() => {
+            if (!game.bulletRiseTimer) {
+                game.bulletRiseTimer = setInterval(() => {
                     bullet.list.forEach((item, index) => {
                         if (item.y >= 0 - bullet.height) {
                             handleRise(item.y, item)
@@ -135,7 +137,7 @@ function Airplane(props) {
             }
         }
         // 移动速率
-        setInterval(() => {
+        game.moveTimer = setInterval(() => {
             let strDown = downKeys.join()
             if (strDown.indexOf('37') > -1) moveLeft()
             if (strDown.indexOf('38') > -1) moveTop()
@@ -145,12 +147,13 @@ function Airplane(props) {
         }, 70)
 
         // 子弹发射频率
-        setInterval(()=>{
+        game.bulletTimer = setInterval(() => {
             if (downKeys.join().indexOf('32') > -1) {
                 riseBullet()
                 setBullet({...bullet})
             }
-        },100)
+        }, 100)
+        setGame({...game})
 
         window.addEventListener('keydown', (e) => {
             e.preventDefault()
