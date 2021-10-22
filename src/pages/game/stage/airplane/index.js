@@ -152,7 +152,7 @@ function Airplane(props) {
 
             enemyPlane.list.push({
                 id: new Date().getTime(),
-                x: 0,
+                x: Math.floor(Math.random() * bg.current.scrollWidth - enemyPlane.width),
                 y: 0
             })
             setEnemyPlane({...enemyPlane})
@@ -194,7 +194,6 @@ function Airplane(props) {
         game.enemyTimer = setInterval(() => {
             madeEnemy()
         }, ENEMY_RATE)
-
 
         setGame({...game})
 
