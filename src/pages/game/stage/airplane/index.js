@@ -5,6 +5,13 @@ import heroImg from '../../../components/img/airplaneImgs/hero.png';
 import bulletImg from '../../../components/img/airplaneImgs/bullet.png';
 import enemyImg from '../../../components/img/airplaneImgs/enemy.png';
 
+const ImgArr = []
+for (let i = 1; i < 20; i++) {
+    ImgArr.push('explosion' + i)
+}
+const ticks = ImgArr.map(item => require('../../../components/img/airplaneImgs/' + item + '.png'))
+
+
 function Airplane(props) {
 
     const MOVE_RATE = 70   // 移动速率
@@ -40,12 +47,18 @@ function Airplane(props) {
         list: []
     })
     let [blowUp, setBlowUp] = useState({     // 爆炸类
+        width: 300,
+        height: 300,
+        list: []
     })
     let [downKeys, setDownKeys] = useState([])  // 被按下的key
 
 
     useEffect(() => {
-        console.log(hero)
+        // ticks.forEach((item) => {
+        //     blowUp.list.push(item.default)
+        // })
+        // setBlowUp({...blowUp})
     }, [])
 
     // 游戏开始
@@ -117,9 +130,30 @@ function Airplane(props) {
         // 子弹上升方法
         let riseBullet = () => {
             // 子弹上升操作
-            let handleRise = (value, obj) => {
+            let handleRise = (value, obj, key) => {
                 value -= 20
                 obj.y = value
+                enemyPlane.list.forEach((item, index) => {
+                    if (
+                        obj.x + bullet.width >= item.x &&
+                        obj.x <= item.x + enemyPlane.width &&
+                        obj.y <= item.y + enemyPlane.height &&
+                        obj.y >= item.y
+                    ) {
+                        enemyPlane.list.splice(index, 1)
+                        setEnemyPlane({...enemyPlane})
+                        bullet.list.splice(key, 1)
+                        game.point++
+                        setGame({...game})
+                        blowUp.list.push({
+                            img: ticks[0].default,
+                            x: obj.x,
+                            y: obj.y,
+                        })
+                        setBlowUp({...blowUp})
+                        console.log(blowUp)
+                    }
+                })
             }
             bullet.list.push({
                 id: new Date().getTime(),
@@ -132,7 +166,7 @@ function Airplane(props) {
                 game.bulletRiseTimer = setInterval(() => {
                     bullet.list.forEach((item, index) => {
                         if (item.y >= 0 - bullet.height) {
-                            handleRise(item.y, item)
+                            handleRise(item.y, item, index)
                         } else {
                             bullet.list.splice(index, 1)
                         }
@@ -152,7 +186,7 @@ function Airplane(props) {
 
             enemyPlane.list.push({
                 id: new Date().getTime(),
-                x: Math.floor(Math.random() * bg.current.scrollWidth - enemyPlane.width),
+                x: Math.floor(Math.random() * (bg.current.scrollWidth - enemyPlane.width)),
                 y: 0
             })
             setEnemyPlane({...enemyPlane})
@@ -240,6 +274,16 @@ function Airplane(props) {
                          src={enemyImg}
                          className='enemy'
                          style={{top: item.y, left: item.x, width: enemyPlane.width, height: enemyPlane.height}}
+                    />
+                )
+            })}
+
+            {blowUp.list.map((item) => {
+                return (
+                    <img key={item.img}
+                         src={item.img}
+                         className='blowUp'
+                         style={{top: item.y, left: item.x, width: blowUp.width, height: blowUp.height}}
                     />
                 )
             })}
